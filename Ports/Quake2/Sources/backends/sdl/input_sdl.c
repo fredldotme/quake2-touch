@@ -86,7 +86,9 @@ bool is_PointInRect( float x, float y, ScreenRect *sr) {
 }
 // transform delta to FBO orientaton
 void transformDelta( float *dx, float *dy ) {
+	int w,h;
 	float tmp;
+	sdlwGetWindowSize(&w, &h);
 	switch( sdlwCurrentOrientation() ) {
 	case SDL_ORIENTATION_LANDSCAPE_FLIPPED:
 		tmp = *dy;
@@ -96,8 +98,8 @@ void transformDelta( float *dx, float *dy ) {
 	default:
 	case SDL_ORIENTATION_LANDSCAPE:
 		tmp = *dy;
-		*dy = -*dx;
-		*dx = tmp;
+		*dy = -*dx * h;
+		*dx = tmp * w;
 		break;
 	// do not use portrait orientations
 	}
@@ -116,8 +118,8 @@ void transformTouch( float *x, float *y ) {
 	default:
 	case SDL_ORIENTATION_LANDSCAPE:
 		tmp = *y;
-		*y = h - *x;
-		*x = tmp;
+		*y = h - (*x * h);
+		*x = tmp * w;
 		break;
 	// do not use portrait orientations
 	}
@@ -506,7 +508,7 @@ bool IN_processEvent(SDL_Event *event)
 		break;
 #endif
 #ifdef SAILFISHOS
-	case SDL_FINGERDOWN:
+		case SDL_FINGERDOWN:
 		{
 			//int touch_count = 0;
 			transformTouch(&event->tfinger.x, &event->tfinger.y);
