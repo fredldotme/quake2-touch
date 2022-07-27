@@ -111,47 +111,6 @@ static void MenuGraphics_msaa_apply()
 	}
 }
 
-static int MenuGraphics_msaa_init(int y)
-{
-	enum { MAX_POW = 4 };
-	static const char *pow2_names_all[MAX_POW + 1] =
-	{
-		"off", "2x", "4x", "8x", "16x"
-	};
-	static const char *pow2_names[MAX_POW + 2];
-	for (int pi = 0; pi <= MAX_POW; pi++)
-	{
-		pow2_names[pi] = pow2_names_all[pi];
-		if ((1 << pi) >= eglwContext->configInfoAbilities.samples)
-        {
-            pow2_names[pi + 1] = NULL;
-			break;
-        }
-	}
-	pow2_names[MAX_POW + 1] = NULL;
-
-	menulist_s *list = &MenuGraphics_msaa_list;
-	list->generic.type = MTYPE_SPINCONTROL;
-	list->generic.name = "multisampling";
-	list->generic.x = 0;
-	list->generic.y = y;
-	list->itemnames = pow2_names;
-	list->curvalue = 0;
-	if (r_msaa_samples->value)
-	{
-		do
-		{
-			list->curvalue++;
-		}
-		while (pow2_names[list->curvalue] && powf(2, list->curvalue) <= r_msaa_samples->value);
-		list->curvalue--;
-	}
-	list->savedValue = list->curvalue;
-	Menu_AddItem(&MenuGraphics_menu, (void *)list);
-	y += 10;
-	return y;
-}
-
 //----------------------------------------
 // Clear mode.
 //----------------------------------------
@@ -830,10 +789,6 @@ void MenuGraphics_init()
 
 	y = MenuGraphics_showfps_init(y);
 	y = MenuGraphics_vsync_init(y);
-	if (r_msaaAvailable)
-	{
-		y = MenuGraphics_msaa_init(y);
-	}
 	y = MenuGraphics_clearMode_init(y);
 	if (gl_config.discardFramebuffer)
 	{

@@ -3739,6 +3739,7 @@ void create_fbo(GLuint w, GLuint h) {
 		// sailfish_fbo.vs = 1.0f;
 		if( sailfish_fbo.vs > 1.0f || sailfish_fbo.vs < 0.15f )
 			sailfish_fbo.vs = SAILFISH_FBO_DEFAULT_SCALE;
+		printf("Scaling: %f\n", sailfish_fbo.vs);
 		sdlwSetFboScale(sailfish_fbo.vs);
 		sailfish_fbo.vw =  w;
 		sailfish_fbo.vh =  h;
@@ -4063,7 +4064,6 @@ static void R_Window_finalize()
 		oglwDestroy();
 	}
 
-	eglwFinalize();
 	sdlwDestroyWindow();
 
 	gl_state.hwgamma = false;
@@ -4451,11 +4451,7 @@ static bool R_Window_createContext()
 	create_fbo(viddef.width, viddef.height);
 #endif
 
-	r_msaaAvailable = (eglwContext->configInfoAbilities.samples > 0);
-	Cvar_SetValue("r_msaa_samples", eglwContext->configInfo.samples);
-	r_stencilAvailable = (eglwContext->configInfo.stencilSize > 0);
-
-	eglSwapInterval(eglwContext->display, gl_swapinterval->value ? 1 : 0);
+	r_msaaAvailable = false;
 
 	if (oglwCreate())
 		goto on_error;
