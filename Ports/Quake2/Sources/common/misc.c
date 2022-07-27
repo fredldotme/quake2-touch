@@ -32,7 +32,6 @@
 #include <setjmp.h>
 
 #ifdef SAILFISHOS
-#include <mce/dbus-names.h>
 #include <SDL2/src/core/linux/SDL_dbus.h>
 #endif
 
@@ -468,8 +467,8 @@ void Qcommon_Run(int argc, char **argv)
 
 #ifdef SAILFISHOS
 	int second_time = oldtime;
-	SDL_DBusContext *context = SDL_DBus_GetContext();
-	SDL_DBus_CallVoidMethodOnConnection(context->system_conn, MCE_SERVICE, MCE_REQUEST_PATH, MCE_REQUEST_IF, MCE_PREVENT_BLANK_REQ, DBUS_TYPE_INVALID);
+	//SDL_DBusContext *context = SDL_DBus_GetContext();
+	//SDL_DBus_CallVoidMethodOnConnection(context->system_conn, "com.canonical.powerd", "/com/canonical/Unity/Screen", "com.canonical.Unity.Screen", "keepDisplayOn", DBUS_TYPE_INVALID);
 #endif
 
 	/* The legendary Quake II mainloop */
@@ -477,9 +476,6 @@ void Qcommon_Run(int argc, char **argv)
 	{
 		if (sdlwIsExitRequested()) 
 		{
-#ifdef SAILFISHOS
-			SDL_DBus_CallVoidMethodOnConnection(context->system_conn, MCE_SERVICE, MCE_REQUEST_PATH, MCE_REQUEST_IF, MCE_CANCEL_PREVENT_BLANK_REQ, DBUS_TYPE_INVALID);
-#endif
 			Com_Quit();
 		}
 
@@ -499,7 +495,7 @@ void Qcommon_Run(int argc, char **argv)
 		if( newtime - second_time >= 60*1000 ) {
 			second_time = oldtime;
 			// printf("Call if(%s) %s;\n", MCE_REQUEST_IF, MCE_PREVENT_BLANK_REQ);
-			SDL_DBus_CallVoidMethodOnConnection(context->system_conn, MCE_SERVICE, MCE_REQUEST_PATH, MCE_REQUEST_IF, MCE_PREVENT_BLANK_REQ, DBUS_TYPE_INVALID);
+                        //SDL_DBus_CallVoidMethodOnConnection(context->system_conn, "com.canonical.powerd", "/com/canonical/Unity/Screen", "com.canonical.Unity.Screen", "keepDisplayOn", DBUS_TYPE_INVALID);
 		}
 #endif
 	}
