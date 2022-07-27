@@ -20,6 +20,9 @@
 
 #include <stdbool.h>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+
 typedef struct {
     EGLint redSize, greenSize, blueSize, alphaSize, depthSize, stencilSize, samples;
 } EglwConfigInfo;
@@ -27,12 +30,7 @@ typedef struct {
 void eglwClearConfigInfo(EglwConfigInfo *ci);
 
 typedef struct {
-    EGLDisplay display;
-    EGLConfig config;
-    EGLSurface surface;
-    EGLContext context;
-    EglwConfigInfo configInfoAbilities;
-    EglwConfigInfo configInfo;
+    SDL_GLContext sdlContext;
 } EglwContext;
 
 extern EglwContext *eglwContext;
@@ -41,7 +39,6 @@ extern EglwContext *eglwContext;
 /// If \a requestedCfgi is not NULL, try to find a config that match at least this one.
 /// If \a requestedCfgi is NULL, the config with the best quality is used if \a maxQualityFlag is true, otherwise the minimum quality is used.
 bool eglwInitialize(EglwConfigInfo *minimalCfgi, EglwConfigInfo *requestedCfgi, bool maxQualityFlag);
-void eglwFinalize();
 void eglwSwapBuffers();
 
 #endif
