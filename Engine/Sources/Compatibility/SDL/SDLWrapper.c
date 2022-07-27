@@ -303,7 +303,9 @@ void sdlwSetOrientation(SDL_DisplayOrientation orientation) {
     // wl_surface *sdl_wl_surface = wmInfo.info.wl.surface;
 
     // SDL_SetHint(SDL_HINT_QTWAYLAND_CONTENT_ORIENTATION,"landscape");
-    SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
+    if (sdlw->windowHeight > sdlw->windowWidth) {
+        SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
+    }
 #if 0
     switch (sdlw->orientation) {
         case SDL_ORIENTATION_LANDSCAPE:
