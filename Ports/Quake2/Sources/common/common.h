@@ -49,7 +49,7 @@
 #ifdef _WIN32
 #define CFGDIR (QUAKE2_TEAM_NAME "Quake2")
 #elif defined(SAILISHOS)
-#define CFGDIR ("." "harbour-quake2" "")
+#define CFGDIR ("." "quake2touch.fredldotme" "")
 #else
 #define CFGDIR ("." QUAKE2_TEAM_NAME "Quake2")
 #endif

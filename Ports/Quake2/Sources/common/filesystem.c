@@ -995,40 +995,31 @@ static void FS_AddBinaryDirAsGameDirectory(const char * dir)
 
 static void FS_AddGameDirectories(const char * dir)
 {
-	Com_sprintf(fs_gamedir, sizeof(fs_gamedir), "%s/%s", fs_basedir->string, dir);
-	printf("Game path: %s", fs_basedir->string);
-
-	{
-		char *home = Sys_GetHomeDir();
-		printf("Home path: %s", home);
-		if (home == NULL || home[0] == '\0')
-			Com_sprintf(fs_writableGamedir, sizeof(fs_writableGamedir), "%s/%s", fs_basedir->string, dir);
-		else
-			Com_sprintf(fs_writableGamedir, sizeof(fs_writableGamedir), "%s%s", home, dir);
-	}
-	printf("Game path: %s", fs_writableGamedir);
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir;
+	Com_sprintf(fs_writableGamedir, sizeof(fs_writableGamedir), "%s/%s", homedir, ".config/quake2touch.fredldotme");
+	printf("Game path: %s\n", fs_writableGamedir);
 	// Create directory if it does not exist.
 	FS_CreatePath(va("%s/", fs_writableGamedir));
 	Com_Printf("Using '%s' for writing.\n", fs_writableGamedir);
 
 	if (fs_cddir->string[0] != '\0')
 		FS_AddGameDirectory(va("%s/%s", fs_cddir->string, dir));
-	FS_AddGameDirectory(va("%s/%s", fs_basedir->string, dir));
+		
+	char* gamesodir = "/opt/click.ubuntu.com/quake2touch.fredldotme/current/baseq2";
+	FS_AddGameDirectory(va("%s/%s", gamesodir, dir));
 	FS_AddBinaryDirAsGameDirectory(dir);
 	FS_AddHomeAsGameDirectory(dir);
-	#if defined(__GCW_ZERO__)
-	FS_AddGameDirectory(va("%s/%s", "/media/data/Quake2", dir)); // Internal SD card.
-//	FS_AddGameDirectory(va("%s/%s", "../../Quake2", dir)); // External SD card when using an OPK from the /apps directory.
-	#endif
-	#ifdef SAILFISHOS
-	printf("Add SailfihsOS specific paths\n");
-	struct passwd *pw = getpwuid(getuid());
-	const char *homedir = pw->pw_dir;
+	printf("Add Ubuntu Touch specific paths\n");
+	char* gamename = getenv("QUAKE2_GAMENAME");
 	
-	FS_AddGameDirectory(va("%s/%s", "/usr/share/harbour-quake2/lib", dir)); // here we are put baseq2/game.so
-	FS_AddGameDirectory(va("%s/%s", va(homedir,".local/share/harbour-quake2/"), dir)); // home share data 
-	FS_AddGameDirectory(va("%s/%s", va(homedir,"Documents/Games/Quake2/"), dir)); // AuroraOS 
-	#endif
+	FS_AddGameDirectory(va("%s", "/opt/click.ubuntu.com/quake2touch.fredldotme/current/baseq2", dir)); // here we are put baseq2/game.so
+	FS_AddGameDirectory(va("%s/%s", "/opt/click.ubuntu.com/quake2touch.fredldotme/current", dir)); // here we are put baseq2/game.so
+	if (gamename) {
+		char* gamedir = va("%s/%s/%s", homedir, ".local/share/quake2touch.fredldotme", gamename);
+		printf("\t%s\n", gamedir);
+		FS_AddGameDirectory(gamedir); // home share data
+	}
 }
 
 /*
