@@ -31,17 +31,18 @@ ifndef RESCOMP
   endif
 endif
 
-# define SailfishOS platform first
+# define wSailfishOS platform first
 ifeq ($(sailfish),yes)
 DEFINES += -DSAILFISHOS
 endif
 DEFINES += -DOGG
-# LIBS    += -logg 
-#LIBS    += -lvorbis -lvorbisfile
-INCLUDES  += -I../../../../../SDL2/include
+LIBS    += -logg 
+LIBS    += -lvorbis -lvorbisfile
+LIBS    += -lmircore -lmirclient
 INCLUDES  += -I../../../../../vorbis/include
 INCLUDES  += -I../../../../../Ports/Quake2/Sources
 INCLUDES  += -I../../../../../
+INCLUDES  += -I/usr/include/mirclient -I/usr/include/mircore
 INCLUDES  += -I/usr/include/dbus-1.0/ -I/usr/lib/dbus-1.0/include
 
 ifeq ($(sailfish_fbo),yes)
@@ -70,10 +71,7 @@ ifeq ($(config),release)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -L$(BASEDIR)/Release/lib -L. -s
   LDDEPS    += $(BASEDIR)/Release/lib/libZLib.a
-  LDDEPS    += $(BASEDIR)/Release/lib/libogg.a
-  LDDEPS    += $(BASEDIR)/Release/lib/libvorbis.a
-  LDDEPS    += ../../../../../SDL2/build/.libs/libSDL2.a
-  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lpthread -lwayland-client
+  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lpthread -lwayland-client -lSDL2
   LINKCMD    = $(CC) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -96,15 +94,12 @@ ifeq ($(config),debug)
   ALL_RESFLAGS  += $(RESFLAGS) $(DEFINES) $(INCLUDES)
   ALL_LDFLAGS   += $(LDFLAGS) -L$(BASEDIR)/Debug/lib -L. -L../../../../../SDL2-src/SDL2/build/.libs 
   LDDEPS    += $(BASEDIR)/Debug/lib/libZLib.a
-  LDDEPS    += $(BASEDIR)/Debug/lib/libogg.a
-  LDDEPS    += $(BASEDIR)/Release/lib/libvorbis.a
 #   LDDEPS    += $(BASEDIR)/Debug/lib/libvorbisfile.a
 #   LDDEPS    += ../../../../../vorbis/lib/.libs/libvorbisenc.a
 #   LDDEPS    += ../../../../../vorbis/lib/.libs/libvorbis.a
 #   LDDEPS    += ../../../../../vorbis/lib/.libs/libvorbisfile.a
 #   LDDEPS    += $(BASEDIR)/Debug/lib/libvorbisenc.a
-  LDDEPS    += ../../../../../SDL2/build/.libs/libSDL2.a
-  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lpthread -lwayland-client -logg
+  LIBS      += $(LDDEPS) -lm -ldl -lGLESv2 -lEGL -lpthread -lwayland-client -logg -lSDL2
   LINKCMD    = $(CC) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

@@ -1,0 +1,4 @@
+[submodule "SDL2"]
+	path = SDL2
+	url = https://gitlab.com/abmyii/sdl.git
+	branch = ubports
