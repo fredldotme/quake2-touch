@@ -4226,7 +4226,7 @@ static bool R_Window_update(bool forceFlag)
         bool updateNeeded = false;
 
         #if defined(R_WINDOWED_MODE_DISABLED) || (defined(SAILFISHOS) && defined(SAILFISH_FBO))
-        bool fullscreen = true;
+        bool fullscreen = r_fullscreen->value = true;
         #else
         bool fullscreen = r_fullscreen->value;
 		#endif
