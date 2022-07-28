@@ -3,8 +3,6 @@
 
 #include <SDL_syswm.h>
 
-#include <mir_toolkit/mir_client_library.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -19,16 +17,7 @@ static EGL_DISPMANX_WINDOW_T l_dispmanWindow;
 static EGLNativeWindowType eglwGetNativeWindow()
 {
     EGLNativeWindowType nativeWindow = (EGLNativeWindowType)NULL;
-
-    #if 1
-
     nativeWindow=(EGLNativeWindowType)sdlwContext->window;
-
-	#else
-
-    nativeWindow=(EGLNativeWindowType)wmInfo.info.mir.surface;
-
-    #endif
 
     return nativeWindow;
 }

@@ -1,25 +1,18 @@
 #ifndef OpenGLWrapper_h
 #define OpenGLWrapper_h
 
-#include <EGL/egl.h>
-#if defined(EGLW_GLES2)
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#else
-#include <GLES/gl.h>
-#include <GLES/glext.h>
-#endif
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengles2.h>
+#include <SDL2/SDL_opengles2_gl2ext.h>
 
 #include <stdbool.h>
 
 //--------------------------------------------------------------------------------
 // Compatibility constants.
 //--------------------------------------------------------------------------------
-#if defined(EGLW_GLES2)
 #define GL_MODELVIEW 0x1700
 #define GL_PROJECTION 0x1701
 #define GL_MODULATE 0x2100
-#endif
 
 #define GL_QUADS 0x0007
 #define GL_POLYGON 0x0009

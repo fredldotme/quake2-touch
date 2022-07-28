@@ -2,7 +2,8 @@
 #ifndef SHADER_GLES2_HEADER
 #define SHADER_GLES2_HEADER
 
-#include <GLES2/gl2.h>
+#include <SDL2/SDL_opengles2.h>
+#include <SDL2/SDL_opengles2_gl2ext.h>
 
 /** @brief load/compile  vertex/fragment shader programm
  * @param  type    shader type {GL_VERTEX_SHADER or GL_FRAGMENT_SHADER}

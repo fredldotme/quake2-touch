@@ -1,14 +1,6 @@
 #ifndef EGLWrapper_h
 #define EGLWrapper_h
 
-//#define EGLW_SDL_DISPLAY
-//#define EGLW_GLES1
-//#define EGLW_GLES2
-
-#if !(defined(EGLW_GLES1) ^ defined(EGLW_GLES2))
-#error "Either EGLW_GLES1 or EGLW_GLES2 must be defined"
-#endif
-
 #if defined(__RASPBERRY_PI__)
 //#include "bcm_host.h"
 #endif
@@ -21,7 +13,8 @@
 #include <stdbool.h>
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include <SDL2/SDL_opengles2.h>
+#include <SDL2/SDL_opengles2_gl2ext.h>
 
 typedef struct {
     EGLint redSize, greenSize, blueSize, alphaSize, depthSize, stencilSize, samples;
