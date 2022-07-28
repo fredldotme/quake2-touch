@@ -419,6 +419,7 @@ bool IN_processEvent(SDL_Event *event)
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:
 			cl_paused->value = 0;
+			sdlwReevaluateFullscreen();
 			break;
 		}
 		break;

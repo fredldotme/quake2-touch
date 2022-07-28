@@ -4285,6 +4285,7 @@ static bool R_Window_update(bool forceFlag)
 			}
 			exitFlag = true;
 			#else
+
             bool currentFullscreen = (SDL_GetWindowFlags(sdlw->window) & SDL_WINDOW_FULLSCREEN) != 0;
             if (fullscreen != currentFullscreen)
             {
@@ -4304,6 +4305,11 @@ static bool R_Window_update(bool forceFlag)
                 if (r_fullscreen_width->modified || r_fullscreen_height->modified || r_fullscreen_bitsPerPixel->modified || r_fullscreen_frequency->modified)
                     updateNeeded = true;
             }
+
+			if (sdlw->reevaluateFullscreen && r_fullscreen->value) {
+				updateNeeded = true;
+				sdlw->reevaluateFullscreen = false;
+			}
 
             if (!currentFullscreen)
             {
@@ -4356,7 +4362,7 @@ static bool R_Window_update(bool forceFlag)
 				Cvar_SetValue("r_window_x", windowX);
 				Cvar_SetValue("r_window_y", windowY);
 				Cvar_SetValue("r_fullscreen", fullscreen);
-				
+
 				if (R_Window_setup())
 					R_printf(PRINT_ALL, "Failed to update the window.\n");
 				else

@@ -95,6 +95,7 @@ bool sdlwInitialize(SdlProcessEventFunction processEvent, Uint32 flags) {
 #ifdef SAILFISHOS
     sdlw->orientation = SDL_ORIENTATION_LANDSCAPE;
 #endif
+	sdlw->reevaluateFullscreen = false;
     if (SDL_Init(flags) < 0) {
         printf("Unable to initialize SDL: %s\n", SDL_GetError());
         goto on_error;
@@ -200,6 +201,12 @@ bool sdlwResize(int w, int h) {
     return false;
 }
 
+void sdlwReevaluateFullscreen()
+{
+	SdlwContext *sdlw = sdlwContext;
+	sdlw->reevaluateFullscreen = true;
+}
+
 void sdlwEnableDefaultEventManagement(bool flag)
 {
 	SdlwContext *sdlw = sdlwContext;
@@ -218,6 +225,7 @@ static void sdlwManageEvent(SdlwContext *sdlw, SDL_Event *event) {
         break;
 
     case SDL_WINDOWEVENT:
+        printf("SDL_WINDOWEVENT: %d\n", event->window.event);
         switch (event->window.event) {
         case SDL_WINDOWEVENT_CLOSE:
             printf("Exit requested by the user (by closing the window).");

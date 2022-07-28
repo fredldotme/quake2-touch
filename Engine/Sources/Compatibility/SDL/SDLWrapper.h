@@ -28,6 +28,7 @@ typedef struct {
 #ifdef SAILFISH_FBO
 	float fbo_scale;
 #endif
+	bool reevaluateFullscreen;
 } SdlwContext;
 
 extern SdlwContext *sdlwContext;
@@ -41,6 +42,7 @@ void sdlwDestroyWindow();
 bool sdlwIsExitRequested();
 void sdlwRequestExit(bool flag);
 bool sdlwResize(int w, int h);
+void sdlwReevaluateFullscreen();
 
 void sdlwEnableDefaultEventManagement(bool flag);
 void sdlwCheckEvents();
