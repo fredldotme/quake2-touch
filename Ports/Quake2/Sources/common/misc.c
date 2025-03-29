@@ -477,6 +477,7 @@ void Qcommon_Run(int argc, char **argv)
 		if (sdlwIsExitRequested()) 
 		{
 			Com_Quit();
+			exit(0);
 		}
 
 		/* find time spent rendering last frame */

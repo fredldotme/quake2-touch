@@ -400,7 +400,7 @@ bool IN_processEvent(SDL_Event *event)
 	{
 	case SDL_QUIT:
 		printf("Exit requested by the system.");
-		sdlwRequestExit(true);
+		exit(0);
 		break;
 
 	case SDL_WINDOWEVENT:
@@ -408,7 +408,7 @@ bool IN_processEvent(SDL_Event *event)
 		{
 		case SDL_WINDOWEVENT_CLOSE:
 			printf("Exit requested by the user (by closing the window).");
-			sdlwRequestExit(true);
+			exit(0);
 			break;
 		case SDL_WINDOWEVENT_RESIZED:
 //        case SDL_WINDOWEVENT_SIZE_CHANGED:
